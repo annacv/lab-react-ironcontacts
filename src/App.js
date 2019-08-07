@@ -44,6 +44,17 @@ class App extends Component {
     })
   }
 
+  removeContact = (index) => {
+    const { myContacts } = this.state;
+    const newMyContacts = [...myContacts];
+
+    newMyContacts.splice(index, 1)
+
+    this.setState({
+      myContacts: newMyContacts,
+    })
+  }
+
   render() {
     console.log(this.state)
     return (
@@ -68,6 +79,8 @@ class App extends Component {
                     <td><img src={contact.pictureUrl} alt={contact.name} /></td>
                     <td><p>{contact.name}</p></td>
                     <td><p>{contact.popularity}</p></td>
+                    <td><button onClick={() => { this.removeContact(index) }}>Delete</button></td>
+                    {/* s'ha d'englobar el mètode en una arrow f per poder-la passar el paràmetre*/}
                   </tr>
                 )
               })
