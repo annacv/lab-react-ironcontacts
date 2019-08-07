@@ -1,25 +1,38 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import contacts from './data/contacts.json';
 
 class App extends Component {
+  state = {
+    fiveContacts: contacts.splice(0, 5)
+  }
   render() {
+    console.log(this.state)
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <h1>Iron Contacts</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>Picture</th>
+              <th>Name</th>
+              <th>Popularity</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              this.state.fiveContacts.map((contact, index) => {
+                return (
+                  <tr key={index}>
+                    <td><img src={contact.pictureUrl} alt={contact.name} /></td>
+                    <td><p>{contact.name}</p></td>
+                    <td><p>{contact.popularity}</p></td>
+                  </tr>
+                )
+              })
+            }
+          </tbody>
+        </table>
       </div>
     );
   }
