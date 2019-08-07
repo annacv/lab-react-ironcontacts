@@ -1,23 +1,46 @@
 import React, { Component } from 'react';
+import contacts from './data/contacts.json'
 import './App.css';
-import contacts from './data/contacts.json';
 
 class App extends Component {
   state = {
     myContacts: contacts.splice(0, 5),
-    contacts
+    contacts,
   }
 
-  handleNewRandomContact = (contact) => {
-    const { contacts, myContacts } = this.state
-    const randomIndex = Math.floor(Math.random() * contacts.length - 1);
-    const newContact = contact[randomIndex]
-
-    const newMyContacts = [...myContacts]
-    newMyContacts.push(newContact)
-
+  handleNewRandomContact = () => {
+    const { contacts, myContacts } = this.state;
+    const randomIndex = Math.round(Math.random() * contacts.length - 1)
+    const newContact = contacts[randomIndex];
+    const newMyContacts = [...myContacts];
+    newMyContacts.push(newContact);
     this.setState({
-      myContacts: newMyContacts
+      myContacts: newMyContacts,
+    })
+  }
+
+  handleSortByPopularity = () => {
+    const { myContacts } = this.state;
+    const newMyContacts = [...myContacts];
+    newMyContacts.sort((a, b) => {
+      return a.popularity - b.popularity
+    })
+    this.setState({
+      myContacts: newMyContacts,
+    })
+  }
+
+  handleSortByName = () => {
+    const { myContacts } = this.state;
+    const newMyContacts = [...myContacts];
+
+    newMyContacts.sort((a, b) => {
+      if (a.name < b.name) { return -1; }
+      if (a.name > b.name) { return 1; }
+      return 0;
+    })
+    this.setState({
+      myContacts: newMyContacts,
     })
   }
 
@@ -25,8 +48,10 @@ class App extends Component {
     console.log(this.state)
     return (
       <div className="App">
-        <h1>Iron Contacts</h1>
-        <button onclick={this.handleNewRandomContact}>Add random contact</button>
+        <h1>IronContacts</h1>
+        <button onClick={this.handleNewRandomContact}>Add Random Contact</button>
+        <button onClick={this.handleSortByName}>Sort by name</button>
+        <button onClick={this.handleSortByPopularity}>Sort by popularity</button>
         <table>
           <thead>
             <tr>
@@ -53,5 +78,4 @@ class App extends Component {
     );
   }
 }
-
 export default App;
