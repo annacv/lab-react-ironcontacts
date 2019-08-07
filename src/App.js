@@ -4,13 +4,29 @@ import contacts from './data/contacts.json';
 
 class App extends Component {
   state = {
-    fiveContacts: contacts.splice(0, 5)
+    myContacts: contacts.splice(0, 5),
+    contacts
   }
+
+  handleNewRandomContact = (contact) => {
+    const { contacts, myContacts } = this.state
+    const randomIndex = Math.floor(Math.random() * contacts.length - 1);
+    const newContact = contact[randomIndex]
+
+    const newMyContacts = [...myContacts]
+    newMyContacts.push(newContact)
+
+    this.setState({
+      myContacts: newMyContacts
+    })
+  }
+
   render() {
     console.log(this.state)
     return (
       <div className="App">
         <h1>Iron Contacts</h1>
+        <button onclick={this.handleNewRandomContact}>Add random contact</button>
         <table>
           <thead>
             <tr>
@@ -21,7 +37,7 @@ class App extends Component {
           </thead>
           <tbody>
             {
-              this.state.fiveContacts.map((contact, index) => {
+              this.state.myContacts.map((contact, index) => {
                 return (
                   <tr key={index}>
                     <td><img src={contact.pictureUrl} alt={contact.name} /></td>
